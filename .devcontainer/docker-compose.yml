@@ -1,0 +1,46 @@
+services:
+  dev:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: universal-dev:latest
+    init: true
+    command: sleep infinity
+    working_dir: /workspace
+    environment:
+      ENABLE_GUI_BROWSER: ${ENABLE_GUI_BROWSER:-false}
+      NOVNC_PORT: ${NOVNC_PORT:-6080}
+      TZ: ${TZ:-UTC}
+      KUBECONFIG: /home/dev/.kube/config
+      AZURE_CONFIG_DIR: /home/dev/.azure
+    ports:
+      - "${NOVNC_PORT:-6080}:6080"
+    volumes:
+      - ..:/workspace:cached
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${HOME}/.ssh:/home/dev/.ssh:cached
+      - ${HOME}/.gitconfig:/home/dev/.gitconfig:cached
+      - ${HOME}/.aws:/home/dev/.aws:cached
+      - ${HOME}/.azure:/home/dev/.azure:cached
+      - ${HOME}/.kube:/home/dev/.kube:cached
+      - ${HOME}/.config/gh:/home/dev/.config/gh:cached
+      - dev-cache:/home/dev/.cache
+      - dev-npm:/home/dev/.npm
+      - dev-pipx:/home/dev/.local/share/pipx
+      - dev-local-state:/home/dev/.local/state
+      - dev-cargo:/home/dev/.cargo
+      - dev-rustup:/home/dev/.rustup
+      - dev-bash-history:/home/dev/.bash_history
+      - dev-codex:/home/dev/.codex
+      - dev-claude:/home/dev/.claude
+
+volumes:
+  dev-bash-history:
+  dev-cache:
+  dev-claude:
+  dev-cargo:
+  dev-codex:
+  dev-local-state:
+  dev-npm:
+  dev-pipx:
+  dev-rustup:
