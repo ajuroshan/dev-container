@@ -16,14 +16,17 @@ services:
     ports:
       - "${NOVNC_PORT:-6080}:6080"
     volumes:
+      # ── Project source ──────────────────────────────────────────────
       - ..:/workspace:cached
+      # ── Docker-outside-of-Docker (optional — remove if not needed) ─
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${HOME}/.ssh:/home/dev/.ssh:cached
-      - ${HOME}/.gitconfig:/home/dev/.gitconfig:cached
-      - ${HOME}/.aws:/home/dev/.aws:cached
-      - ${HOME}/.azure:/home/dev/.azure:cached
-      - ${HOME}/.kube:/home/dev/.kube:cached
-      - ${HOME}/.config/gh:/home/dev/.config/gh:cached
+      # ── All state lives in named volumes — no host file sync ───────
+      - dev-ssh:/home/dev/.ssh
+      - dev-gitconfig:/home/dev/.gitconfig
+      - dev-aws:/home/dev/.aws
+      - dev-azure:/home/dev/.azure
+      - dev-kube:/home/dev/.kube
+      - dev-gh:/home/dev/.config/gh
       - dev-cache:/home/dev/.cache
       - dev-npm:/home/dev/.npm
       - dev-pipx:/home/dev/.local/share/pipx
@@ -35,12 +38,18 @@ services:
       - dev-claude:/home/dev/.claude
 
 volumes:
+  dev-aws:
+  dev-azure:
   dev-bash-history:
   dev-cache:
-  dev-claude:
   dev-cargo:
+  dev-claude:
   dev-codex:
+  dev-gh:
+  dev-gitconfig:
+  dev-kube:
   dev-local-state:
   dev-npm:
   dev-pipx:
   dev-rustup:
+  dev-ssh:

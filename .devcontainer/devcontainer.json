@@ -1,12 +1,12 @@
 {
-  "name": "universal-dev-macos",
+  "name": "universal-dev",
   "dockerComposeFile": "docker-compose.yml",
   "service": "dev",
   "workspaceFolder": "/workspace",
   "remoteUser": "dev",
   "shutdownAction": "stopCompose",
   "overrideCommand": true,
-  "postCreateCommand": "bash -lc 'git --version && docker --version && gh --version && kubectl version --client >/dev/null && python3 --version && node --version && go version && rustc --version && java -version >/dev/null && codex --help >/dev/null && claude --help >/dev/null'",
+  "postCreateCommand": "bash -lc 'echo \"--- Tool check ---\" && git --version && node --version && python3 --version && go version && rustc --version && java -version 2>&1 | head -1 && echo \"--- CLI check ---\" && (docker --version 2>/dev/null || echo \"docker: not available (no socket)\") && (gh --version 2>/dev/null | head -1 || echo \"gh: not available\") && (kubectl version --client --short 2>/dev/null || echo \"kubectl: not available\") && echo \"--- Done ---\"'",
   "customizations": {
     "vscode": {
       "settings": {
@@ -16,7 +16,14 @@
         "ms-azuretools.vscode-docker",
         "ms-kubernetes-tools.vscode-kubernetes-tools",
         "github.vscode-github-actions",
-        "github.copilot"
+        "github.copilot",
+        "github.copilot-chat",
+        "ms-python.python",
+        "golang.go",
+        "rust-lang.rust-analyzer",
+        "redhat.vscode-yaml",
+        "esbenp.prettier-vscode",
+        "eamodio.gitlens"
       ]
     }
   }
